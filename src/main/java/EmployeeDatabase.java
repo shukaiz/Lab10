@@ -10,12 +10,12 @@ import java.util.List;
  *
  * @see <a href="https://cs125.cs.illinois.edu/lab/10/">Lab 10 Description</a>
  */
-public class EmployeeDatabase {
+public final class EmployeeDatabase {
 
     /**
      * List of employees.
      */
-    public List<Employee> employees;
+    private List<Employee> employees;
 
     /**
      * Constructor which initializes the employees list.
@@ -30,8 +30,8 @@ public class EmployeeDatabase {
     /**
      * Returns the manager for the given employee.
      *
-     * @param employee
-     * @return
+     * @param employee The employee to look for.
+     * @return manager for the given employee.
      */
     Employee findManager(final Employee employee) {
         Employee manager = null;
@@ -50,12 +50,16 @@ public class EmployeeDatabase {
      * Consider both a recursive and an iterative solution to this problem.
      *
      * @param employee name of the employee
-     * @return int
+     * @return number of managers above this employee
      */
     public int countManagersAbove(final Employee employee) {
-        /*
-         * Implement this function
-         */
+
+        if (findManager(employee) == null) {
+            return 0;
+        } else {
+            return 1 + countManagersAbove(findManager(employee));
+        }
+
     }
 
     /**
@@ -67,9 +71,17 @@ public class EmployeeDatabase {
      * @return int
      */
     public int countEmployeesUnder(final Employee employee) {
-        /*
-         * Implement this function
-         */
+
+        int employeesUnder = 0;
+
+        for (int i = 0; i < employees.size(); i++) {
+            if (findManager(employees.get(i)) == employee) {
+                employeesUnder++;
+            }
+        }
+
+        return employeesUnder;
+
     }
 
     /**
